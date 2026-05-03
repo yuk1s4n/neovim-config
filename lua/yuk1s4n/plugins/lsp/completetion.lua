@@ -34,6 +34,9 @@ return {
                     { name = "buffer" },
                     { name = "path" },
                 }),
+                performance = {
+                    max_view_entries = 3,
+                },
             })
 
             vim.diagnostic.config({

@@ -9,7 +9,17 @@ vim.keymap.set("i", "<Down>", "<nop>")
 vim.keymap.set("i", "<Left>", "<nop>")
 vim.keymap.set("i", "<Right>", "<nop>")
 
-vim.keymap.set("v", "<C-a>", "ggVG")
+vim.keymap.set("i", "<C-a>", "(")
+vim.keymap.set("i", "<C-s>", "[")
+vim.keymap.set("i", "<C-d>", "{")
+vim.keymap.set("i", "<C-j>", ")")
+vim.keymap.set("i", "<C-k>", "]")
+vim.keymap.set("i", "<C-l>", "}")
+
+vim.keymap.set("i", "{", "{}<Left>")
+vim.keymap.set("i", "{<Cr>", "{<Cr>}<Esc>0")
+
+-- vim.keymap.set("v", "<C-a>", "ggVG")
 
 -- In visual mode, move the selected block (like Alt + Up/Down in vscode)
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
