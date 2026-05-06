@@ -7,23 +7,57 @@ vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 vim.keymap.set("i", "<Up>", "<nop>")
 vim.keymap.set("i", "<Down>", "<nop>")
 vim.keymap.set("i", "<Left>", "<nop>")
+
+
+vim.keymap.set("n", "s", "<nop>")
+vim.keymap.set("n", "S", "<nop>")
+
+-- Remap movement keys: hjkl → jkls
+local modes = { "n", "v" }
+
+for _, mode in ipairs(modes) do
+  vim.keymap.set(mode, "j", "h", { desc = "Move left" })
+  vim.keymap.set(mode, "k", "j", { desc = "Move down" })
+  vim.keymap.set(mode, "l", "k", { desc = "Move up" })
+  vim.keymap.set(mode, "s", "l", { desc = "Move right" })
+end
+
+
+vim.keymap.set("i", ";fm", "?")
+vim.keymap.set("i", ";fe", "=")
+vim.keymap.set("i", ";fa", "+")
+vim.keymap.set("i", ";fg", "-")
+vim.keymap.set("i", ";fh", "_")
+vim.keymap.set("i", "-", "<nop>")
+vim.keymap.set("i", ";;", "<Esc>xi<Right>")
+vim.keymap.set("i", ";fv", "p")
+vim.keymap.set("i", ";fV", "P")
+vim.keymap.set("i", ";f'", "q")
+vim.keymap.set("i", ';f"', "Q")
+vim.keymap.set("i", ";f,", "w")
+vim.keymap.set("i", ";f<", "W")
+vim.keymap.set("i", ";f;", "z")
+vim.keymap.set("i", ";f:", "Z")
 vim.keymap.set("i", "<Right>", "<nop>")
+vim.keymap.set("i", "<Enter>", "<nop>")
+vim.keymap.set("i", "{<Cr>", "{<Cr>}<Esc>0O")
+vim.keymap.set("i", ";fu", "<Enter>")
 
-vim.keymap.set("i", "<C-a>", "(")
-vim.keymap.set("i", "<C-s>", "[")
-vim.keymap.set("i", "<C-d>", "{")
-vim.keymap.set("i", "<C-j>", ")")
-vim.keymap.set("i", "<C-k>", "]")
-vim.keymap.set("i", "<C-l>", "}")
+vim.keymap.set("i", ";fs", "[") -- Open Parentheses [
+vim.keymap.set("i", ";fss", "]") -- Close Parentheses [
+vim.keymap.set("i", ";fb", "{") -- Open Parenthesee { 
+vim.keymap.set("i", ";fbb", "}") -- Close Parenthesee } 
+vim.keymap.set("i", ";fr", "(") -- Open Parentheses (
+vim.keymap.set("i", ";frr", ")") -- Close Parentheses )
 
-vim.keymap.set("i", "{", "{}<Left>")
-vim.keymap.set("i", "{<Cr>", "{<Cr>}<Esc>0")
+vim.keymap.set("i", ";fB", "{<Cr>}<Esc>0O") -- Parentheses {}
+
 
 -- vim.keymap.set("v", "<C-a>", "ggVG")
 
 -- In visual mode, move the selected block (like Alt + Up/Down in vscode)
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "L", ":m '<-2<CR>gv=gv")
 
 -- vim.api.nvim_set_keymap("n", "<leader>tf", "<Plug>PlenaryTestFile", { noremap = false, silent = false })
 
