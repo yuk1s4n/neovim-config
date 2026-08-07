@@ -1,5 +1,9 @@
 vim.g.mapleader = " "
+vim.keymap.set("n", "<leader>ww", "<C-w>w")
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>tn", vim.cmd.tabnew)
+vim.keymap.set("n", "<leader>tc", vim.cmd.tabclose)
+vim.keymap.set("n", "<leader>tt", ":tabnew | terminal<CR>")
 
 -- In terminal insert mode, escape, then followed by :bd! or :q
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
@@ -7,57 +11,60 @@ vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 vim.keymap.set("i", "<Up>", "<nop>")
 vim.keymap.set("i", "<Down>", "<nop>")
 vim.keymap.set("i", "<Left>", "<nop>")
-
+vim.keymap.set("i", "<Right>", "<nop>")
 
 vim.keymap.set("n", "s", "<nop>")
 vim.keymap.set("n", "S", "<nop>")
+vim.keymap.set("n", "<leader>it", "<cmd>InspectTree<cr>", { desc = "Inspect treesitter tree" })
+vim.keymap.set("n", "<leader>mo", function()
+  if vim.opt.mouse:get() == "a" then
+    vim.opt.mouse = ""
+    print("Mouse disabled")
+  else
+    vim.opt.mouse = "a"
+    print("Mouse enabled")
+  end
+end, { desc = "Toggle mouse" })
 
--- Remap movement keys: hjkl → jkls
-local modes = { "n", "v" }
-
-for _, mode in ipairs(modes) do
-  vim.keymap.set(mode, "j", "h", { desc = "Move left" })
-  vim.keymap.set(mode, "k", "j", { desc = "Move down" })
-  vim.keymap.set(mode, "l", "k", { desc = "Move up" })
-  vim.keymap.set(mode, "s", "l", { desc = "Move right" })
-end
-
-
-vim.keymap.set("i", ";fm", "?")
+-- Remap key letters
+-- vim.keymap.set("i", ";fl", "\\")
+-- vim.keymap.set("i", ";fll", "|")
+-- vim.keymap.set("i", ";fm", "/")
+-- vim.keymap.set("i", ";fmm", "?")
 vim.keymap.set("i", ";fe", "=")
-vim.keymap.set("i", ";fa", "+")
+vim.keymap.set("i", ";fee", "+")
 vim.keymap.set("i", ";fg", "-")
-vim.keymap.set("i", ";fh", "_")
+vim.keymap.set("i", ";fgg", "_")
 vim.keymap.set("i", "-", "<nop>")
-vim.keymap.set("i", ";;", "<Esc>xi<Right>")
-vim.keymap.set("i", ";fv", "p")
-vim.keymap.set("i", ";fV", "P")
-vim.keymap.set("i", ";f'", "q")
-vim.keymap.set("i", ';f"', "Q")
-vim.keymap.set("i", ";f,", "w")
-vim.keymap.set("i", ";f<", "W")
-vim.keymap.set("i", ";f;", "z")
-vim.keymap.set("i", ";f:", "Z")
-vim.keymap.set("i", "<Right>", "<nop>")
+-- vim.keymap.set("i", ";;", "<Esc>xi<Right>")
+-- vim.keymap.set("i", ";ff", "s")
+-- vim.keymap.set("i", ";fF", "S")
+-- vim.keymap.set("i", ";fv", "p")
+-- vim.keymap.set("i", ";fV", "P")
+-- vim.keymap.set("i", ";f'", "q")
+-- vim.keymap.set("i", ';f"', "Q")
+-- vim.keymap.set("i", ";f,", "w")
+-- vim.keymap.set("i", ";f<", "W")
+-- vim.keymap.set("i", ";f;", "z")
+-- vim.keymap.set("i", ";f:", "Z")
 vim.keymap.set("i", "<Enter>", "<nop>")
 vim.keymap.set("i", "{<Cr>", "{<Cr>}<Esc>0O")
-vim.keymap.set("i", ";fu", "<Enter>")
+vim.keymap.set("i", "<C-j>", "<Enter>")
 
-vim.keymap.set("i", ";fs", "[") -- Open Parentheses [
-vim.keymap.set("i", ";fss", "]") -- Close Parentheses [
+vim.keymap.set("i", ";fj", "[") -- Open Parentheses [
+vim.keymap.set("i", ";fjj", "]") -- Close Parentheses [
 vim.keymap.set("i", ";fb", "{") -- Open Parenthesee { 
 vim.keymap.set("i", ";fbb", "}") -- Close Parenthesee } 
 vim.keymap.set("i", ";fr", "(") -- Open Parentheses (
 vim.keymap.set("i", ";frr", ")") -- Close Parentheses )
-
 vim.keymap.set("i", ";fB", "{<Cr>}<Esc>0O") -- Parentheses {}
 
-
+vim.api.nvim_set_keymap('n', '<leader>wr', ':set wrap!<CR>', { noremap = true, silent = true })
 -- vim.keymap.set("v", "<C-a>", "ggVG")
 
 -- In visual mode, move the selected block (like Alt + Up/Down in vscode)
-vim.keymap.set("v", "K", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "L", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- vim.api.nvim_set_keymap("n", "<leader>tf", "<Plug>PlenaryTestFile", { noremap = false, silent = false })
 
@@ -73,7 +80,7 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 -- Format the current paragraph and cursor does not jump
-vim.keymap.set("n", "=ap", "ma=ap'a")
+vim.keymap.set("n", "=a", "ma=ap'a")
 
 -- Restart the LSP server
 -- vim.keymap.set("n", "<leader>zig", "<cmd>LspRestart<cr>")
@@ -89,6 +96,11 @@ vim.keymap.set("n", "=ap", "ma=ap'a")
 -- end)
 
 -- In visual modes, paste over a selection without overwriting your clipboard register
+vim.keymap.set("n", "<leader>lb", function()
+  require("dap").list_breakpoints()
+  vim.cmd("copen")
+end, { desc = "List breakpoints" })
+
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- Yank the selection/motion into system clipboard (e.g. <leader>yw: yank word, <leader>y$: yank to end of line)
@@ -97,16 +109,18 @@ vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 -- Delete into the void register -- Nothing gets overwritten in your clipboard.
-vim.keymap.set({ "n", "v" }, "<leader>d", "\"_d")
+vim.keymap.set({ "n", "v" }, "<leader>dv", "\"_d")
 
 -- Disable Q in normal mode
 vim.keymap.set("n", "Q", "<nop>")
 
 -- Tmux integration
 -- Opens a new tmux window running a custom tmux-sessionizer scipt
--- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
--- vim.keymap.set("n", "<M-h>", "<cmd>silent !tmux-sessionizer -s 0 --vsplit<CR>")
--- vim.keymap.set("n", "<M-H>", "<cmd>silent !tmux neww tmux-sessionizer -s 0<CR>")
+vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+-- vim.keymap.set("n", "<M-h>", "<cmd>silent !tmux neww tmux-sessionizer -s 0<CR>")
+-- vim.keymap.set("n", "<M-t>", "<cmd>silent !tmux neww tmux-sessionizer -s 1<CR>")
+-- vim.keymap.set("n", "<M-n>", "<cmd>silent !tmux neww tmux-sessionizer -s 2<CR>")
+-- vim.keymap.set("n", "<M-s>", "<cmd>silent !tmux neww tmux-sessionizer -s 3<CR>")
 
 -- Go to the next item in the quickfix list, then center the screen
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
