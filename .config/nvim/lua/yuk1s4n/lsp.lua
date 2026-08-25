@@ -51,9 +51,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
     keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
 
     -- Disable semantic tokens highlighting
-    for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
-        vim.api.nvim_set_hl(0, group, {})
-    end
+    -- for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
+    --     vim.api.nvim_set_hl(0, group, {})
+    -- end
   end,
 })
 

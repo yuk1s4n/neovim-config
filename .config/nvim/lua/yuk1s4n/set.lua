@@ -1,5 +1,5 @@
 vim.opt.guicursor = ""
-vim.opt.mouse = ""
+vim.opt.mouse = "a"
 
 vim.o.foldmethod = "expr"
 vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"

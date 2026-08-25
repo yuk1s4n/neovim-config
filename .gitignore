@@ -1,0 +1,105 @@
+# ============================================================
+# Ignore everything by default
+# ============================================================
+
+*
+
+# ============================================================
+# Shell / terminal configuration
+# ============================================================
+
+!/.bash_logout
+!/.bashrc
+!/.profile
+!/.fzf.bash
+!/.tmux.conf
+
+# ============================================================
+# Git
+# ============================================================
+
+!/.gitconfig
+!/.gitignore
+
+# ============================================================
+# fzf
+# ============================================================
+
+# Keep fzf configuration/script, but not the fzf git repository
+!/.fzf.bash
+/.fzf/
+
+# ============================================================
+# tmux
+# ============================================================
+
+# Keep your tmux configuration, but not plugin repositories
+!/.tmux.conf
+/.tmux/plugins/
+
+# ============================================================
+# .config
+# ============================================================
+
+!/.config/
+
+# Neovim
+!/.config/nvim/
+!/.config/nvim/**
+
+# LazyGit
+!/.config/lazygit/
+!/.config/lazygit/**
+
+# tmux-sessionizer
+!/.config/tmux-sessionizer/
+!/.config/tmux-sessionizer/**
+
+# Ignore Cursor configuration
+/.config/cursor/
+
+# Ignore the accidentally created Packer path
+/.config/:LOCALAPPDATA\nvim-data\site\pack\packer\start\packer.nvim/
+
+# ============================================================
+# AI agents / AI tooling
+# ============================================================
+
+/.claude/
+/.claude.json
+/.codex/
+/.continue/
+/.cursor/
+/.gemini/
+
+# ============================================================
+# Secrets / credentials
+# ============================================================
+
+/.ssh/
+/.npmrc
+
+# ============================================================
+# Shell history / local state
+# ============================================================
+
+/.bash_history
+/.sudo_as_admin_successful
+/.undodir/
+
+# ============================================================
+# Caches / generated data
+# ============================================================
+
+/.cache/
+/.local/
+/.npm/
+/.npm-global/
+/.rustup/
+/.cargo/
+
+# ============================================================
+# Installer / archive
+# ============================================================
+
+/nvim-linux-x86_64.tar.gz

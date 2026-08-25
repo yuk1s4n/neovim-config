@@ -1,0 +1,4 @@
+os:
+  editPreset: 'nvim'
+  editInTerminal: true
+
