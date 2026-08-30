@@ -126,7 +126,7 @@ export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 export PATH="$HOME/.local/bin:$PATH"
 eval "$(zoxide init bash)"
 . "$HOME/.cargo/env"
-source -- ~/.local/share/blesh/ble.sh
+# source -- ~/.local/share/blesh/ble.sh
 
 # ~/.blerc will be used by default
 # [[ $- == *i* ]] && source -- ~/ble.sh --attach=none
