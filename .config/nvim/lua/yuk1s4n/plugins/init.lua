@@ -39,7 +39,7 @@ return {
 
             -- Optional: enable a transparent background.
             -- Must be set before loading the colorscheme.
-            -- vim.g.omnitheme_transparent = true
+            vim.g.omnitheme_transparent = true
 
             -- Choose your flavour.
             vim.cmd("colorscheme blackout")
@@ -73,19 +73,36 @@ return {
             end
         },
         {
-
             "nvim-telescope/telescope.nvim",
             dependencies = { "nvim-lua/plenary.nvim" },
             config = function()
+                local telescope = require("telescope")
                 local builtin = require("telescope.builtin")
-                require("telescope").setup({})
+
+                telescope.setup({
+                    defaults = {
+                        layout_strategy = "horizontal",
+
+                        layout_config = {
+                            horizontal = {
+                                preview_cutoff = 0,
+                                preview_width = 0.5,
+                            },
+                        },
+                    },
+                })
+
                 vim.keymap.set("n", "<leader>pf", builtin.find_files)
                 vim.keymap.set("n", "<C-p>", builtin.git_files)
+
                 vim.keymap.set("n", "<leader>ps", function()
-                    builtin.grep_string({ search = vim.fn.input("Grep > ") });
+                    builtin.grep_string({
+                        search = vim.fn.input("Grep > "),
+                    })
                 end)
+
                 vim.keymap.set("n", "<leader>re", builtin.resume)
-            end
+            end,
         },
         {
             "ThePrimeagen/harpoon",
