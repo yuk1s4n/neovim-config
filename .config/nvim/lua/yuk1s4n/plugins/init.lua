@@ -28,23 +28,23 @@ return {
             vim.treesitter.language.register("bash", "zsh")
         end,
     },
-    {
-        "harshrajsachan/omni.nvim",
-        lazy = false, -- load during startup if OmniTheme is your main colorscheme
-        priority = 1000, -- load before other start plugins
-
-        config = function()
-            -- Optional: access OmniTheme's Lua API
-            -- local omnitheme = require("omnitheme")
-
-            -- Optional: enable a transparent background.
-            -- Must be set before loading the colorscheme.
-            vim.g.omnitheme_transparent = true
-
-            -- Choose your flavour.
-            vim.cmd("colorscheme blackout")
-        end
-    },
+    -- {
+    --     "harshrajsachan/omni.nvim",
+    --     lazy = false, -- load during startup if OmniTheme is your main colorscheme
+    --     priority = 1000, -- load before other start plugins
+    --
+    --     config = function()
+    --         -- Optional: access OmniTheme's Lua API
+    --         -- local omnitheme = require("omnitheme")
+    --
+    --         -- Optional: enable a transparent background.
+    --         -- Must be set before loading the colorscheme.
+    --         vim.g.omnitheme_transparent = true
+    --
+    --         -- Choose your flavour.
+    --         vim.cmd("colorscheme blackout")
+    --     end
+    -- },
     {
         "mbbill/undotree",
         config = function()
