@@ -55,6 +55,10 @@
 !/.config/tmux-sessionizer/
 !/.config/tmux-sessionizer/**
 
+# Xmodmap
+!/.config/xmodmap
+!/.config/xmodmap/**
+
 # Ignore Cursor configuration
 /.config/cursor/
 
