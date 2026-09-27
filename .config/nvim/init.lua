@@ -24,4 +24,4 @@ vim.api.nvim_set_hl(0, "CursorLine", { underline = true, sp = "#ffffff" })
 --     end,
 -- })
 
-vim.cmd("syntax off")
+-- vim.cmd("syntax off")

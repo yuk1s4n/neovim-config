@@ -122,7 +122,7 @@ alias nv='nvim'
 alias lg='lazygit'
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export PATH="$HOME/.local/bin:$PATH"
 eval "$(zoxide init bash)"
 . "$HOME/.cargo/env"

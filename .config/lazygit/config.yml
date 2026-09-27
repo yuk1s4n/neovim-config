@@ -1,4 +1,4 @@
-os:
-  editPreset: 'nvim'
-  editInTerminal: true
+  os:
+    editPreset: 'nvim'
+    editInTerminal: true
 

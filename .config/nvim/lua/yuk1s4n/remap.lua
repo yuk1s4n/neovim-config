@@ -1,9 +1,9 @@
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>ww", "<C-w>w")
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
-vim.keymap.set("n", "<leader>tn", vim.cmd.tabnew)
-vim.keymap.set("n", "<leader>tc", vim.cmd.tabclose)
-vim.keymap.set("n", "<leader>tt", ":tabnew | terminal<CR>")
+-- vim.keymap.set("n", "<leader>tn", vim.cmd.tabnew)
+-- vim.keymap.set("n", "<leader>tc", vim.cmd.tabclose)
+-- vim.keymap.set("n", "<leader>tt", ":tabnew | terminal<CR>")
 
 -- In terminal insert mode, escape, then followed by :bd! or :q
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
@@ -26,27 +26,11 @@ vim.keymap.set("n", "<leader>mo", function()
   end
 end, { desc = "Toggle mouse" })
 
--- Remap key letters
--- vim.keymap.set("i", ";fl", "\\")
--- vim.keymap.set("i", ";fll", "|")
--- vim.keymap.set("i", ";fm", "/")
--- vim.keymap.set("i", ";fmm", "?")
 vim.keymap.set("i", ";fe", "=")
 vim.keymap.set("i", ";fee", "+")
 vim.keymap.set("i", ";fg", "-")
 vim.keymap.set("i", ";fgg", "_")
 vim.keymap.set("i", "-", "<nop>")
--- vim.keymap.set("i", ";;", "<Esc>xi<Right>")
--- vim.keymap.set("i", ";ff", "s")
--- vim.keymap.set("i", ";fF", "S")
--- vim.keymap.set("i", ";fv", "p")
--- vim.keymap.set("i", ";fV", "P")
--- vim.keymap.set("i", ";f'", "q")
--- vim.keymap.set("i", ';f"', "Q")
--- vim.keymap.set("i", ";f,", "w")
--- vim.keymap.set("i", ";f<", "W")
--- vim.keymap.set("i", ";f;", "z")
--- vim.keymap.set("i", ";f:", "Z")
 vim.keymap.set("i", "<Enter>", "<nop>")
 vim.keymap.set("i", "{<Cr>", "{<Cr>}<Esc>0O")
 vim.keymap.set("i", "<C-j>", "<Enter>")
@@ -80,7 +64,7 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 -- Format the current paragraph and cursor does not jump
-vim.keymap.set("n", "=a", "ma=ap'a")
+vim.keymap.set("n", "<leader>=", "ma=ap'a")
 
 -- Restart the LSP server
 -- vim.keymap.set("n", "<leader>zig", "<cmd>LspRestart<cr>")
@@ -114,19 +98,11 @@ vim.keymap.set({ "n", "v" }, "<leader>dv", "\"_d")
 -- Disable Q in normal mode
 vim.keymap.set("n", "Q", "<nop>")
 
--- Tmux integration
--- Opens a new tmux window running a custom tmux-sessionizer scipt
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
--- vim.keymap.set("n", "<M-h>", "<cmd>silent !tmux neww tmux-sessionizer -s 0<CR>")
--- vim.keymap.set("n", "<M-t>", "<cmd>silent !tmux neww tmux-sessionizer -s 1<CR>")
--- vim.keymap.set("n", "<M-n>", "<cmd>silent !tmux neww tmux-sessionizer -s 2<CR>")
--- vim.keymap.set("n", "<M-s>", "<cmd>silent !tmux neww tmux-sessionizer -s 3<CR>")
-
 -- Go to the next item in the quickfix list, then center the screen
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
--- Go to the previous, ...
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
--- Go to the prev/next item in the location list (per-window, vs quickfix is global), then center
+-- vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
+-- -- Go to the previous, ...
+-- vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+-- -- Go to the prev/next item in the location list (per-window, vs quickfix is global), then center
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
@@ -134,38 +110,79 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 -- vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
--- vim.keymap.set(
---     "n",
---     "<leader>ee",
---     "oif err != nil {<CR>}<Esc>Oreturn err<Esc>"
--- )
---
--- vim.keymap.set(
---     "n",
---     "<leader>ea",
---     "oassert.NoError(err, \"\")<Esc>F\";a"
--- )
---
--- vim.keymap.set(
---     "n",
---     "<leader>ef",
---     "oif err != nil {<CR>}<Esc>Olog.Fatalf(\"error: %s\\n\", err.Error())<Esc>jj"
--- )
---
--- vim.keymap.set(
---     "n",
---     "<leader>el",
---     "oif err != nil {<CR>}<Esc>O.logger.Error(\"error\", \"error\", err)<Esc>F.;i"
--- )
---
--- vim.keymap.set("n", "<leader>ca", function()
---     require("cellular-automaton").start_animation("make_it_rain")
--- end)
 
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
 
-vim.keymap.set("n", "<leader>gc", function()
-    vim.cmd("Gvdiffsplit")
+vim.keymap.set("n", "<leader>gc", [[:Gvdiffsplit]])
+
+
+vim.keymap.set("n", "<leader>yp", function()
+    vim.fn.setreg("+", vim.fn.expand("%:p%"))
 end)
+
+local high_light_id = nil
+
+local function clear_highlight()
+    if high_light_id ~= nil then
+        pcall(vim.fn.matchdelete, high_light_id)
+        high_light_id = nil
+    end
+end
+
+local function highlight_word(word)
+    if not word or word == "" then
+        return
+    end
+
+    clear_highlight()
+
+    local pattern = "\\V\\<" .. vim.fn.escape(word, "\\") .. "\\>"
+
+    high_light_id = vim.fn.matchadd("search", pattern)
+end
+
+local function highlight_word_under_cursor()
+    local word = vim.fn.expand("<cword>")
+    highlight_word(word)
+end
+
+local function highlight_visual_selection()
+    local old_reg = vim.fn.getreg('"')
+    local old_regtype = vim.fn.getregtype('"')
+
+    vim.cmd('normal! y')
+
+    local text = vim.fn.getreg('"')
+
+    vim.fn.setreg('"', old_reg, old_regtype)
+
+    text = text:gsub("\n$", "")
+
+    if text == "" or text:find("\n") then
+        return
+    end
+
+    highlight_word(text)
+end
+
+vim.keymap.set("n", "<leader>h", highlight_word_under_cursor, {
+    silent = true,
+})
+
+vim.keymap.set("v", "<leader>h", function()
+    highlight_visual_selection()
+end, {
+    silent = true,
+})
+
+vim.keymap.set({ "n", "v" }, "<leader>nh", clear_highlight, {
+    silent = true,
+})
+
+vim.keymap.set("n", "<leader>lx", function()
+    vim.fn.setloclist(0, {}, "r")
+end, { desc = "Clear Location List" })
+
+vim.keymap.set("n", "<leader>lw", [[:lvimgrep /\<<C-r><C-w>\>/ %<Left><Left><Left><Left><Left>]])
