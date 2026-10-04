@@ -33,8 +33,11 @@ vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
-vim.opt.updatetime = 50
+vim.opt.updatetime = 51
 
 -- vim.opt.colorcolumn = "80"
 vim.g.undotree_CustomUndotreeCmd  = 'topleft vertical 30 new'
 vim.g.undotree_CustomDiffpanelCmd = 'botright 10 new'
+
+
+-- There is nothing here
