@@ -142,3 +142,29 @@ export PATH="/home/yuk1s4n/.local/bin:$PATH"
 export PATH="/home/yuk1s4n/.local/share/fnm:$PATH"
 eval "$(fnm env --use-on-cd --shell bash)"
 export PATH="$HOME/.local/bin:$PATH"
+
+alias fd='fdfind'
+fzf_files() {
+    local selected
+    selected=$(fd . /home/yuk1s4n --type f --hidden --follow --exclude .git | fzf) || return
+    READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
+    (( READLINE_POINT += ${#selected} ))
+}
+
+fzf_dirs() {
+    local selected
+    selected=$(fd . /home/yuk1s4n --type d --hidden --follow --exclude .git | fzf) || return
+    READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
+    (( READLINE_POINT += ${#selected} ))
+}
+
+bind -x '"\C-t":fzf_files'
+bind -x '"\C-d":fzf_dirs'
+export PATH="$HOME/.local/bin:$PATH"
+
+
+parse_git_branch() {
+    git branch --show-current 2>/dev/null
+}
+PS1='\[\e[38;2;0;128;0m\]\w\[\e[0m\] \[\e[38;2;125;45;145m\]$(parse_git_branch)\[\e[0m\]\n\[\e[38;2;200;45;55m\]❯ > \[\e[0m\] '
+bind -r '\C-o'

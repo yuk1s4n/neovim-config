@@ -10,18 +10,27 @@ vim.api.nvim_set_hl(0, "LineNr", { fg = "#5eacd3" })
 vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#ff6b6b" })
 vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#ff6b6b" })
 
--- CursorLineNr = the actual current line number
--- vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#ffffff", bold = true })
 
 vim.opt.cursorline = true
-vim.api.nvim_set_hl(0, "CursorLine", { underline = true, sp = "#ffffff" })
--- vim.api.nvim_set_hl(0, "CursorLine", { bg = "#2a2a2a" })   -- the line background
--- vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#FFD700", bold = true })  -- the line number
--- vim.api.nvim_create_autocmd("ColorScheme", {
---     pattern = "*",
---     callback = function()
---         vim.cmd("syntax off")
---     end,
--- })
+vim.api.nvim_set_hl(0, "CursorLine", { underline = true, bg = "#DFD2EE", sp = "#000000" })
 
--- vim.cmd("syntax off")
+vim.opt.colorcolumn = "120"
+
+vim.api.nvim_set_hl(0, "ColorColumn", {
+    bg = "#ff5c57",
+    fg = "#ff5c57",
+})
+
+vim.api.nvim_set_hl(0, "NonText", {
+    fg = "#ff5c57",
+})
+
+-- vim.treesitter.stop()
+
+vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = "#00ff00" })
+vim.api.nvim_set_hl(0, "GitSignsChange", { fg = "#ff69b4" })
+
+vim.api.nvim_set_hl(0, "GitSignsAddStaged", { fg = "#00ff00" })
+vim.api.nvim_set_hl(0, "GitSignsChangeStaged", { fg = "#ff69b4" })
+
+vim.opt.laststatus = 3
