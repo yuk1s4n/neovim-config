@@ -54,11 +54,86 @@ return {
                 end,
             })
 
-            vim.keymap.set("i", "<C-s>", "<Nop>", {
-                desc = "Disable default Ctrl-S in Insert mode",
-            })
             --------------------------------------------------
-            -- Telescope setup: giữ nguyên cấu hình của bạn
+            -- Ctrl-s: save Telescope results to a NEW
+            -- Quickfix List
+            --------------------------------------------------
+            local function save_results_to_quickfix(prompt_bufnr)
+                local picker =
+                action_state.get_current_picker(prompt_bufnr)
+
+                if not picker then
+                    return
+                end
+
+                local items = {}
+
+                for entry in picker.manager:iter() do
+                    local filename = entry.filename or entry.path
+
+                    if filename then
+                        filename = vim.fn.fnamemodify(
+                            filename,
+                            ":p"
+                        )
+
+                        local text = entry.text
+
+                        if type(text) ~= "string" then
+                            text = entry.display
+                        end
+
+                        if type(text) == "function" then
+                            text = text(entry, picker)
+                        end
+
+                        if type(text) ~= "string" then
+                            text = filename
+                        end
+
+                        table.insert(items, {
+                            filename = filename,
+                            lnum = tonumber(entry.lnum) or 1,
+                            col = tonumber(entry.col) or 1,
+                            text = vim.trim(text),
+                        })
+                    end
+                end
+
+                local title = "Telescope Results"
+
+                if picker.prompt_title and picker.prompt_title ~= "" then
+                    title = "Telescope: " .. picker.prompt_title
+                end
+
+                actions.close(prompt_bufnr)
+
+                -- Create a new Quickfix List, not an append.
+                vim.fn.setqflist({}, " ", {
+                    title = title,
+                    items = items,
+                })
+
+                vim.cmd("copen")
+
+                if #items == 0 then
+                    vim.notify(
+                        "No file results to save",
+                        vim.log.levels.WARN
+                    )
+                else
+                    vim.notify(
+                        string.format(
+                            "Saved %d results to Quickfix",
+                            #items
+                        ),
+                        vim.log.levels.INFO
+                    )
+                end
+            end
+
+            --------------------------------------------------
+            -- Telescope setup
             --------------------------------------------------
             telescope.setup({
                 defaults = {
@@ -67,7 +142,7 @@ return {
                     layout_config = {
                         horizontal = {
                             preview_cutoff = 0,
-                            preview_width = 0.5,
+                            preview_width = 0.7,
                         },
                     },
 
@@ -75,12 +150,21 @@ return {
                         local utils = require("telescope.utils")
                         return utils.path_tail(path)
                     end,
+
+                    -- Ctrl-s works by default in Telescope pickers.
+                    mappings = {
+                        i = {
+                            ["<C-s>"] = save_results_to_quickfix,
+                        },
+                        n = {
+                            ["<C-s>"] = save_results_to_quickfix,
+                        },
+                    },
                 },
             })
 
             --------------------------------------------------
             -- Ctrl-g: insert selected file path into command line
-            -- Không thực thi command
             --------------------------------------------------
             local function insert_selected_path(prompt_bufnr)
                 local entry = action_state.get_selected_entry()
@@ -131,84 +215,12 @@ return {
             end
 
             --------------------------------------------------
-            -- Ctrl-s: save Telescope results to a NEW Quickfix List
-            --------------------------------------------------
-            local function save_results_to_quickfix(prompt_bufnr)
-                local picker =
-                action_state.get_current_picker(prompt_bufnr)
-
-                if not picker then
-                    return
-                end
-
-                local items = {}
-
-                for entry in picker.manager:iter() do
-                    local filename = entry.filename or entry.path
-
-                    if filename then
-                        filename = vim.fn.fnamemodify(
-                            filename,
-                            ":p"
-                        )
-
-                        table.insert(items, {
-                            filename = filename,
-                            lnum = tonumber(entry.lnum) or 1,
-                            col = tonumber(entry.col) or 1,
-                            text = vim.trim(
-                                entry.text or entry.display or filename
-                            ),
-                        })
-                    end
-                end
-
-                local title = "Telescope Results"
-
-                if picker.prompt_title and picker.prompt_title ~= "" then
-                    title = "Telescope: " .. picker.prompt_title
-                end
-
-                actions.close(prompt_bufnr)
-
-                -- " " creates a new Quickfix List, not an append
-                vim.fn.setqflist({}, " ", {
-                    title = title,
-                    items = items,
-                })
-
-                vim.cmd("copen")
-
-                if #items == 0 then
-                    vim.notify(
-                        "No file results to save",
-                        vim.log.levels.WARN
-                    )
-                else
-                    vim.notify(
-                        string.format(
-                            "Saved %d results to Quickfix",
-                            #items
-                        ),
-                        vim.log.levels.INFO
-                    )
-                end
-            end
-
-            local function attach_quickfix_mapping(_, map)
-                map("i", "<C-s>", save_results_to_quickfix)
-                map("n", "<C-s>", save_results_to_quickfix)
-                return true
-            end
-
-            --------------------------------------------------
             -- <leader>pf: Find files
             --------------------------------------------------
             vim.keymap.set("n", "<leader>pf", function()
                 builtin.find_files({
                     attach_mappings = function(prompt_bufnr, map)
                         attach_path_mapping(prompt_bufnr, map)
-                        attach_quickfix_mapping(prompt_bufnr, map)
                         return true
                     end,
                 })
@@ -221,15 +233,16 @@ return {
         --------------------------------------------------
         vim.keymap.set("n", "<C-p>", function()
             local git_root = get_git_root()
+
             if not git_root then
                 return
             end
 
             builtin.git_files({
                 cwd = git_root,
+
                 attach_mappings = function(prompt_bufnr, map)
                     attach_path_mapping(prompt_bufnr, map)
-                    attach_quickfix_mapping(prompt_bufnr, map)
                     return true
                 end,
             })
@@ -265,9 +278,9 @@ return {
         builtin.grep_string({
             search = search_text,
             use_regex = false,
+
             attach_mappings = function(prompt_bufnr, map)
                 attach_path_mapping(prompt_bufnr, map)
-                attach_quickfix_mapping(prompt_bufnr, map)
                 return true
             end,
         })
@@ -287,6 +300,7 @@ vim.keymap.set("n", "<leader>re", builtin.resume, {
 --------------------------------------------------
 vim.keymap.set("n", "<leader>ls", function()
     local git_root = get_git_root()
+
     if not git_root then
         return
     end
@@ -296,7 +310,9 @@ vim.keymap.set("n", "<leader>ls", function()
 
         attach_mappings = function(prompt_bufnr, map)
             local function show_stash_diff()
-                local selection = action_state.get_selected_entry()
+                local selection =
+                action_state.get_selected_entry()
+
                 if not selection then
                     return
                 end
@@ -338,7 +354,7 @@ vim.keymap.set("n", "<leader>ls", function()
                     return
                 end
 
-                -- Display diff in a separate scratch buffer
+                -- Display diff in a separate scratch buffer.
                 vim.cmd("botright new")
 
                 local buf = vim.api.nvim_get_current_buf()
@@ -367,7 +383,7 @@ vim.keymap.set("n", "<leader>ls", function()
                 vim.bo[buf].modifiable = false
             end
 
-            -- Enter: show diff, never apply the stash
+            -- Enter: show diff, never apply the stash.
             map("i", "<CR>", show_stash_diff)
             map("n", "<CR>", show_stash_diff)
 
@@ -376,7 +392,7 @@ vim.keymap.set("n", "<leader>ls", function()
     })
 end, {
 desc = "Browse Git stashes",
-        })
-    end,
-},
+            })
+        end,
+    },
 }

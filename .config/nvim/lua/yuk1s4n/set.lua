@@ -1,9 +1,12 @@
+vim.api.nvim_set_hl(0, "Normal", { fg = "#000000" })
+vim.api.nvim_set_hl(0, "NormalFloat", { fg = "#000000" })
 vim.opt.guicursor = ""
 vim.opt.mouse = "a"
 
-vim.o.foldmethod = "expr"
-vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.o.foldlevel = 3
+-- Folding seems annoying at present
+-- vim.o.foldmethod = "expr"
+-- vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- vim.o.foldlevel = 3
 
 vim.opt.nu = true
 vim.opt.relativenumber = true
@@ -35,16 +38,41 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 51
 
-vim.g.undotree_CustomUndotreeCmd  = 'topleft vertical 30 new'
-vim.g.undotree_CustomDiffpanelCmd = 'botright 10 new'
-
+vim.g.undotree_CustomUndotreeCmd = "topleft vertical 30 new"
+vim.g.undotree_CustomDiffpanelCmd = "botright 10 new"
 
 -- There is nothing here
 vim.opt.list = true
 
 vim.opt.listchars = {
-    tab = "» ",
-    trail = "·",
-    nbsp = "␣",
-    eol = "↵",
+	tab = "» ",
+	trail = "·",
+	nbsp = "␣",
+	eol = "↵",
 }
+
+vim.opt.laststatus = 3
+
+vim.api.nvim_create_autocmd({ "WinEnter", "WinLeave" }, {
+	callback = function(ev)
+		if ev.event == "WinEnter" then
+			vim.wo.cursorline = true
+		else
+			vim.wo.cursorline = false
+		end
+	end,
+})
+
+-- Normal line numbers
+vim.api.nvim_set_hl(0, "LineNr", { fg = "#5eacd3" })
+
+-- Current line number (where your cursor is)
+vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#ff6b6b" })
+vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#ff6b6b" })
+
+vim.opt.cursorline = true
+vim.api.nvim_set_hl(0, "CursorLine", { underline = true, bg = "#DFD2EE", sp = "#000000" })
+
+vim.api.nvim_set_hl(0, "NonText", {
+	fg = "#ff5c57",
+})
